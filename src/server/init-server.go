@@ -31,5 +31,19 @@ func main() {
 		return resp, nil
 	})
 
+	huma.Register(api, huma.Operation{
+		OperationID: "welcome-user",
+		Method:      http.MethodGet,
+		Path:        "/hi/{name}",
+		Summary:     "Great user",
+		Description: "Great user with his name",
+	}, func(ctx context.Context, input *struct {
+		Name string `path:"name" maxLength:"30" example:"world" doc:"Name to greet"`
+	}) (*HiResponse, error) {
+		resp := &HiResponse{}
+		resp.Body.Message = fmt.Sprintf("Hello, %s!", input.Name)
+		return resp, nil
+	})
+
 	http.ListenAndServe(":3131", r)
 }

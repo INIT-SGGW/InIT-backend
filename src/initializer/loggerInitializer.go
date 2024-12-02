@@ -49,6 +49,8 @@ func CreateLogger() *zap.Logger {
 }
 
 func New(logger *zap.Logger) func(next http.Handler) http.Handler {
+	defer logger.Sync()
+
 	if logger == nil {
 		return func(next http.Handler) http.Handler { return next }
 	}
