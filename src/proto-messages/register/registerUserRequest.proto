@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+import "google/api/date.proto";
+
+option go_package = "INIT-SGGW/InIT-backend-01.Register/proto-service/register";
+
+message RegisterUserRequestRPC{
+    int32 requestSessionId = 1;
+    string firstName = 2;
+    string lastName = 3;
+    string email = 4;
+    string password = 5;
+    google.type.Date dateOfBirth = 6;
+    bool isAggrementFulfielled =7;
+    string privilageLevel = 8;
+}
+
+message RegisterUserResponseRPC{
+    int32 requestSessionId = 1;
+    RPCStatusMessage Status =2;
+
+}
+
+message RPCStatusMessage{
+    string status = 1;
+    optional string errors =2;
+}
+
+// Send by 00.Gateway service to 01.Register service
+service RegisterUserSender{
+    rpc SendRegisterUserRequestSession (RegisterUserRequestRPC) returns (RegisterUserResponseRPC){}
+}
+
